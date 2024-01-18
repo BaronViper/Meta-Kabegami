@@ -8,61 +8,58 @@ body {
     background-color: black;
 }
 
-@keyframes slide {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+.create-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
-@keyframes slide2 {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+.footer {
+  position:fixed;
+  bottom: 0;
+
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
 
 .logos {
-  margin-top: auto;
   overflow: hidden;
-  padding: 2.5% 0;
+  padding: 5% 0;
   background: white;
   white-space: nowrap;
-
+  width: 100%;
 }
 
 .logos-slide {
   display: inline-block;
-  animation: slide 10s infinite linear;
+  animation: 10s slide infinite linear;
 }
 
-.logos-slide-2 {
-  display: inline-block;
-  animation: slide2 10s infinite linear;
-}
-
-.logos img {
-  width: 9%;
-  margin: 0 1%;
+.logos-slide img {
+  height: 60px;
+  margin: 0 50px;
 }
 
 .main-body {
-  display: flex;
-  flex: 1;
+  margin: 0;
+
 }
 
 .main-container {
-  display: flex;
-  flex-direction: column;
   height: 100vh;
 }
 
 .main-text{
     color: white;
+    margin: 5% 0 0 5%;
 }
 
 .main-head-text{
@@ -88,7 +85,7 @@ body {
 }
 
 .nav-text{
-    font-family: 'Libre Barcode 128', system-ui;
+    font-family: 'Libre Barcode 39 Text', system-ui;
     color: white;
     display: inline-block;
     font-size: 2.5em;
