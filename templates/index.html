@@ -29,8 +29,12 @@
                         <h2 class="main-sub-text">An NFT Wallpaper Generator</h2>
                     </div>
                 </div>
-                <div class="create-button col-sm-8">
-                    <button class="button-59" role="button">Create</button>
+                <div class="create-group col-sm-8">
+                    <form action="{{ url_for('create_page') }}" method="post">
+                      <label for="pname" id="pname-label">NFT Link:</label>
+                      <input type="text" id="pname" name="pname" placeholder="Enter an NFT Image Address"><br><br>
+                      <button type="submit" class="button-59" role="button" onclick="">Create</button>
+                    </form>
                 </div>
             </div>
 

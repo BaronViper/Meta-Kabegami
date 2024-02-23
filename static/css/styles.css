@@ -6,13 +6,14 @@
 
 body {
     background-color: black;
+    margin: 0;
+    padding: 0;
 }
 
-.create-button {
+.create-group {
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .footer {
@@ -32,7 +33,7 @@ body {
 
 .logos {
   overflow: hidden;
-  padding: 5% 0;
+  padding: 1% 0;
   background: white;
   white-space: nowrap;
   width: 100%;
@@ -40,11 +41,11 @@ body {
 
 .logos-slide {
   display: inline-block;
-  animation: 10s slide infinite linear;
+  animation: 15s slide infinite linear;
 }
 
 .logos-slide img {
-  height: 60px;
+  height: 120px;
   margin: 0 50px;
 }
 
@@ -84,11 +85,16 @@ body {
     height: 100%;
 }
 
-.nav-text{
+.nav-text {
     font-family: 'Libre Barcode 39 Text', system-ui;
     color: white;
     display: inline-block;
     font-size: 2.5em;
+}
+
+.preview-pane {
+    width: 100%;
+    height: 100%;
 }
 
 
@@ -121,19 +127,32 @@ body {
 }
 
 .button-59:focus {
-  color: #171e29;
+  color: #171ff;
 }
 
 .button-59:hover {
-  border-color: #06f;
-  color: #06f;
-  fill: #06f;
+  border-color: red;
+  color: red;
+  fill: red;
 }
 
 .button-59:active {
   border-color: #06f;
   color: #06f;
   fill: #06f;
+}
+
+#pname {
+  font-family: 'Nova Square', sans-serif;
+  background-color: black;
+  color: white;
+  border: 3px solid white;
+}
+
+#pname-label {
+  font-family: 'Nova Square', sans-serif;
+  color: white;
+  font-size: 1.25em;
 }
 
 @media (min-width: 768px) {
