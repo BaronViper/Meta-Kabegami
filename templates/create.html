@@ -2,21 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/styles.css">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Meta Kabegami</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="icon" href="static/images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&family=Libre+Barcode+39+Text&display=swap&family=Libre+Barcode+39+Extended+Text&family=Major+Mono+Display&family=Nova+Square&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="main-page">
-        <div class="preview-pane container text-center">
+    <div class="main-container">
+        <nav class="navbar">
+            <img src="static/images/logo.png" alt="Logo." class="nav-brand">
+            <h1 class="nav-text">72 6e 64 6d 73</h1>
+        </nav>
+
+        <div class="main-body container-fluid">
+
             <div class="row">
-                <div class="col-6">
-                    <img src="{{ pname }}" alt="" srcset="">
+                <div class="col-sm-6">
+                    <div class="img-container">
+                        <img src="{{ img_src }}" class="src-img"/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="phone-container">
+                        <section>
+                            <div class="outside-border">
+                                <div class="silencer"></div>
+                                <div class="volume-up"></div>
+                                <div class="volume-down"></div>
+                                <div class="button-on"></div>
+                                <div class="inside-border">
+
+                                    <!-- Camera -->
+
+                                    <div class="camera">
+                                        <div class="camera-dot">
+                                            <div class="camera-dot-2"></div>
+                                            <div class="camera-dot-3"></div>
+                                        </div>
+                                        <div class="camera-speaker">
+                                        </div>
+                                    </div>
+
+                                    <!-- Lock -->
+
+                                    <div class="lock">
+                                        <div class="lock-locked"></div>
+                                    </div>
+
+                                    <!-- Time -->
+
+                                    <div class="time">19:53</div>
+
+                                    <!-- Battery and Signal -->
+
+                                    <div class="t-r-info">
+                                        <div class="dots">...</div>
+                                        <div class="battery">
+                                            <div class="bar"></div>
+                                            <div class="dot"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Date -->
+
+                                    <div class="date">Tuesday, 9 August</div>
+
+
+                                    <!-- Torch -->
+
+                                    <div class="torch-outter">
+                                        <div class="light"></div>
+                                        <div class="top"></div>
+                                        <div class="switch-top"></div>
+                                        <div class="switch-section"></div>
+                                        <div class="switch">
+                                            <div class="dot"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Camera -->
+
+                                    <div class="camera-outter">
+                                        <div class="box"></div>
+                                        <div class="eye"></div>
+                                        <div class="circle"></div>
+                                        <div class="dot"></div>
+                                    </div>
+
+                                    <!-- Bottom Line -->
+
+                                  <div class="bottom-line"></div>
+
+                                </div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     
 </body>
 </html>
