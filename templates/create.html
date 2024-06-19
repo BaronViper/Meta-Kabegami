@@ -11,7 +11,7 @@
     <link rel="icon" href="static/images/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&family=Libre+Barcode+39+Text&display=swap&family=Libre+Barcode+39+Extended+Text&family=Major+Mono+Display&family=Nova+Square&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&family=Libre+Barcode+39+Text&display=swap&family=Libre+Barcode+39+Extended+Text&family=Major+Mono+Display&family=Sedgwick+Ave&display&family=Nova+Square&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="main-container">
@@ -20,11 +20,6 @@
         <div class="create-body container-fluid">
 
             <div class="row">
-                <div class="col-sm-6">
-                    <div class="img-container">
-                        <img src="{{ img_src }}" class="src-img"/>
-                    </div>
-                </div>
                 <div class="col-sm-6">
                     <div class="phone-container">
                         <section>
@@ -101,6 +96,18 @@
                         </section>
                     </div>
                 </div>
+
+                <div class="col-sm-6">
+                    <div class="nft-info">
+                        <div>
+                            <h1 class="art-title">{{ art_title }}</h1>
+                            <div class="img-container">
+                                <img src="{{ img_src }}" class="src-img"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

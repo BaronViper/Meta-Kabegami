@@ -14,7 +14,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&family=Libre+Barcode+39+Text&display=swap&family=Libre+Barcode+39+Extended+Text&family=Major+Mono+Display&family=Nova+Square&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="loading-screen"><p id="loading-text">Loading...</p></div>
+    <div class="loading-screen"><p class="loading-text">Loading...</p></div>
+    <div class="loading-screen" id="generate-screen" style="display: none;"><p class="loading-text">Cooking Up Your Wallpaper...</p></div>
     <div class="main-container">
         {% include 'navbar.html' %}
 
@@ -31,8 +32,8 @@
                         <form action="{{ url_for('main_page') }}" method="POST" id="create-form">
                             <div class="form-contents">
                                 <label for="pname" id="pname-label">NFT OpenSea Link</label>
-                                <input type="text" id="pname" name="pname" placeholder="Enter an NFT Image Address"><br><br>
-                                <button type="submit" class="create-button" role="button">Let's Create</button>
+                                <input type="text" id="pname" name="pname" placeholder="Enter an NFT Image Address"><br>
+                                <button type="submit" class="create-button" role="button">Let It Cook</button>
                             </div>
                         </form>
                     </div>
@@ -72,9 +73,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script>
-      $("document").ready(function () {
+      $(document).ready(function () {
         function hideLoadingScreen() {
-                $('#loading-screen').fadeOut('slow');
+                $('.loading-screen').fadeOut('slow');
               }
 
         // Attach an event listener to the window's load event
@@ -83,7 +84,7 @@
         });
 
         $("#create-form").on("submit", function () {
-            $("#loading-screen").fadeIn('slow');
+            $("#generate-screen").fadeIn('slow');
         });
       })
     </script>
