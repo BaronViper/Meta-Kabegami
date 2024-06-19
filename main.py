@@ -23,16 +23,16 @@ header = Headers(
     headers=False # generate misc headers
 )
 customUserAgent = header.generate()['User-Agent']
-# options = webdriver.ChromeOptions()
-# options.add_argument(f"user-agent={customUserAgent}")
-# options.add_argument('--headless')
+options = webdriver.ChromeOptions()
+options.add_argument(f"user-agent={customUserAgent}")
+options.add_argument('--headless')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 @app.route('/', methods=["POST", "GET"])
 def main_page():
-    driver = webdriver.Chrome(service=Service(chrome_driver_path))
+    driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
     # Set up driver
     if request.method == "GET":
         return render_template('index.html')
