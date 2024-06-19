@@ -8,11 +8,22 @@ import urllib.request
 import os
 
 load_dotenv()
+# headers = {
+#     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+#     'Accept-Language': 'en-US,en;q=0.9'
+# }
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-    'Accept-Language': 'en-US,en;q=0.9'
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    'Cache-Control': 'max-age=0',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'none',
+    'Sec-Fetch-User': '?1',
+    'Sec-GPC': '1',
 }
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
@@ -28,25 +39,22 @@ def main_page():
         html_content = response.text
         soup = BeautifulSoup(html_content, 'html.parser')
         try:
-            if response.status_code == 200:
-                img_src = soup.find("img", class_="Image--image")['src']
-                title = soup.find("h1", class_="item--title").get_text()
+            img_src = soup.find("img", class_="Image--image")['src']
+            title = soup.find("h1", class_="item--title").get_text()
 
-                urllib.request.urlretrieve(url=img_src, filename="target_img.png")
+            urllib.request.urlretrieve(url=img_src, filename="target_img.png")
 
-                # Convert image to wallpaper (3840x1818)
-                img = Image.open("target_img.png")
-                pix = img.load()
-                palette_rgb = pix[1, 1]
-                resized_img = ImageOps.fit(img, size=(1818, 1818))
-                ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("static/images/image_converted.png")
+            # Convert image to wallpaper (3840x1818)
+            img = Image.open("target_img.png")
+            pix = img.load()
+            palette_rgb = pix[1, 1]
+            resized_img = ImageOps.fit(img, size=(1818, 1818))
+            ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("static/images/image_converted.png")
 
-                session['title'] = title
-                session['img_src'] = img_src
+            session['title'] = title
+            session['img_src'] = img_src
 
-                return redirect('/create')
-            else:
-                return f"{response.status_code}"
+            return redirect('/create')
         except Exception as e:
             return f"An error occurred: {str(e)}"
 
