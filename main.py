@@ -44,9 +44,8 @@ def main_page():
             session['img_src'] = img_src
 
             return redirect('/create')
-        except:
-            print("Timed out waiting for page to load")
-            return render_template('index.html')
+        except Exception as e:
+            return e
 
 
 @app.route('/create', methods=["POST", "GET"])
