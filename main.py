@@ -74,7 +74,7 @@ def create_page():
 
 
 @app.route('/create/test', methods=["POST", "GET"])
-def create_page():
+def create_page_test():
     if request.method == "GET":
         return render_template('create.html', img_src=r"https://i.seadn.io/s/raw/files/0d304ef87f29306ae752b241871ec0d3.png?auto=format&dpr=1&w=1000", art_title="Azuki #5334")
 
