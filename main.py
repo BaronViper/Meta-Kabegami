@@ -44,7 +44,7 @@ def main_page():
             session['img_src'] = img_src
 
             return redirect('/create')
-        except TimeoutException:
+        except:
             print("Timed out waiting for page to load")
             return render_template('index.html')
 
