@@ -9,7 +9,6 @@ from fake_headers import Headers
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import urllib.request
-import time
 from PIL import Image, ImageOps
 import os
 
