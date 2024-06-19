@@ -1,52 +1,35 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_session import Session
 from dotenv import load_dotenv
-from selenium import webdriver
-from selenium.common import TimeoutException
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from fake_headers import Headers
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
-import urllib.request
 from PIL import Image, ImageOps
+from bs4 import BeautifulSoup
+import requests
+import urllib.request
 import os
 
-from selenium.webdriver.support.wait import WebDriverWait
-
 load_dotenv()
-chrome_driver_path = r"drivers/chromedriver"
-
-header = Headers(
-    browser="chrome",  # Generate only Chrome UA
-    os="win",  # Generate only Windows platform
-    headers=False # generate misc headers
-)
-customUserAgent = header.generate()['User-Agent']
-options = webdriver.ChromeOptions()
-options.add_argument(f"user-agent={customUserAgent}")
-options.add_argument('--headless')
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'Accept-Language': 'en-US,en;q=0.9'
+}
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 @app.route('/', methods=["POST", "GET"])
 def main_page():
-    driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
-    # Set up driver
+
     if request.method == "GET":
         return render_template('index.html')
     else:
         img_address = request.form['pname']
-        driver.get(url=img_address)
+        response = requests.get(img_address,
+                                headers=headers)
+        html_content = response.text
+        soup = BeautifulSoup(html_content, 'html.parser')
         try:
-            img_src = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "Image--image"))
-            ).get_attribute('src')
-
-            title = driver.find_element(By.CLASS_NAME, "item--title").get_attribute("innerHTML")
-
-            driver.quit()
+            img_src = soup.find("img", class_="Image--image")['src']
+            title = soup.find("h1", class_="item--title").get_text()
 
             urllib.request.urlretrieve(url=img_src, filename="target_img.png")
 
@@ -63,7 +46,6 @@ def main_page():
             return redirect('/create')
         except TimeoutException:
             print("Timed out waiting for page to load")
-            driver.quit()
             return render_template('index.html')
 
 
