@@ -14,27 +14,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&family=Libre+Barcode+39+Text&display=swap&family=Libre+Barcode+39+Extended+Text&family=Major+Mono+Display&family=Nova+Square&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="loading-screen"><p id="loading-text">Loading...</p></div>
     <div class="main-container">
-        <nav class="navbar">
-            <img src="static/images/logo.png" alt="Logo." class="nav-brand">
-            <h1 class="nav-text">72 6e 64 6d 73</h1>
-        </nav>
+        {% include 'navbar.html' %}
 
         <div class="main-body container-fluid">
-            
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="main-text">
-                        <h1 class="main-head-text">Meta Kabegami</h1>
-                        <h2 class="main-sub-text">An NFT Wallpaper Generator</h2>
+            <div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="main-text">
+                            <h1 class="main-head-text">Meta Kabegami</h1>
+                            <h2 class="main-sub-text">An NFT Wallpaper Generator</h2>
+                        </div>
                     </div>
-                </div>
-                <div class="create-group col-sm-8">
-                    <form action="{{ url_for('main_page') }}" method="POST">
-                      <label for="pname" id="pname-label">NFT Link:</label>
-                      <input type="text" id="pname" name="pname" placeholder="Enter an NFT Image Address"><br><br>
-                      <button type="submit" class="button-59" role="button">Create</button>
-                    </form>
+                    <div class="create-group col-sm-8">
+                        <form action="{{ url_for('main_page') }}" method="POST" id="create-form">
+                            <div class="form-contents">
+                                <label for="pname" id="pname-label">NFT OpenSea Link</label>
+                                <input type="text" id="pname" name="pname" placeholder="Enter an NFT Image Address"><br><br>
+                                <button type="submit" class="create-button" role="button">Let's Create</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 
@@ -69,5 +70,22 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script>
+      $("document").ready(function () {
+        function hideLoadingScreen() {
+                $('#loading-screen').fadeOut('slow');
+              }
+
+        // Attach an event listener to the window's load event
+        $(window).on('load', function() {
+            setTimeout(hideLoadingScreen, 1000); // 1000 milliseconds delay
+        });
+
+        $("#create-form").on("submit", function () {
+            $("#loading-screen").fadeIn('slow');
+        });
+      })
+    </script>
 </body>
 </html>
