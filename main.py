@@ -39,22 +39,25 @@ def main_page():
         html_content = response.text
         soup = BeautifulSoup(html_content, 'html.parser')
         try:
-            img_src = soup.find("img", class_="Image--image")['src']
-            title = soup.find("h1", class_="item--title").get_text()
+            if response.status_code == 200:
+                img_src = soup.find("img", class_="Image--image")['src']
+                title = soup.find("h1", class_="item--title").get_text()
 
-            urllib.request.urlretrieve(url=img_src, filename="target_img.png")
+                urllib.request.urlretrieve(url=img_src, filename="target_img.png")
 
-            # Convert image to wallpaper (3840x1818)
-            img = Image.open("target_img.png")
-            pix = img.load()
-            palette_rgb = pix[1, 1]
-            resized_img = ImageOps.fit(img, size=(1818, 1818))
-            ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("static/images/image_converted.png")
+                # Convert image to wallpaper (3840x1818)
+                img = Image.open("target_img.png")
+                pix = img.load()
+                palette_rgb = pix[1, 1]
+                resized_img = ImageOps.fit(img, size=(1818, 1818))
+                ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("static/images/image_converted.png")
 
-            session['title'] = title
-            session['img_src'] = img_src
+                session['title'] = title
+                session['img_src'] = img_src
 
-            return redirect('/create')
+                return redirect('/create')
+            else:
+                return f"{response.status_code}"
         except Exception as e:
             return f"An error occurred: {str(e)}"
 
