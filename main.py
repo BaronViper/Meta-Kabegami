@@ -5,7 +5,9 @@ from PIL import Image, ImageOps
 from bs4 import BeautifulSoup
 import requests
 import urllib.request
+import random
 import os
+
 
 load_dotenv()
 # headers = {
@@ -24,6 +26,16 @@ headers = {
     'Sec-Fetch-User': '?1',
     'Sec-GPC': '1',
 }
+
+response = requests.get("https://api.proxyscrape.com/v3/free-proxy-list/get?request=displayproxies&proxy_format=protocolipport&format=text&protocol=http")
+proxy_list = response.content.decode().split('\n')
+proxy_list = [proxy.strip() for proxy in proxy_list if proxy.strip()]
+proxy = random.choice(proxy_list)
+proxies = {
+    'http': proxy,
+    'https': proxy,
+}
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
@@ -34,30 +46,26 @@ def main_page():
         return render_template('index.html')
     else:
         img_address = request.form['pname']
-        response = requests.get(img_address,
-                                headers=headers)
+        response = requests.get(img_address, headers=headers, proxies=proxies)
         html_content = response.text
         soup = BeautifulSoup(html_content, 'html.parser')
         try:
-            if response.status_code == 200:
-                img_src = soup.find("img", class_="Image--image")['src']
-                title = soup.find("h1", class_="item--title").get_text()
+            img_src = soup.find("img", class_="Image--image")['src']
+            title = soup.find("h1", class_="item--title").get_text()
 
-                urllib.request.urlretrieve(url=img_src, filename="target_img.png")
+            urllib.request.urlretrieve(url=img_src, filename="target_img.png")
 
-                # Convert image to wallpaper (3840x1818)
-                img = Image.open("target_img.png")
-                pix = img.load()
-                palette_rgb = pix[1, 1]
-                resized_img = ImageOps.fit(img, size=(1818, 1818))
-                ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("static/images/image_converted.png")
+            # Convert image to wallpaper (3840x1818)
+            img = Image.open("target_img.png")
+            pix = img.load()
+            palette_rgb = pix[1, 1]
+            resized_img = ImageOps.fit(img, size=(1818, 1818))
+            ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("static/images/image_converted.png")
 
-                session['title'] = title
-                session['img_src'] = img_src
+            session['title'] = title
+            session['img_src'] = img_src
 
-                return redirect('/create')
-            else:
-                return f"{response.status_code}"
+            return redirect('/create')
         except Exception as e:
             return f"An error occurred: {str(e)}"
 

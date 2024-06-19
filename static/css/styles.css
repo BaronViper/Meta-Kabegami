@@ -236,7 +236,7 @@ a {
 
 .outside-border {
   /* Image Used to Display the BG */
-  background-color: red;
+  background-image: url("../images/image_converted.png");
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
