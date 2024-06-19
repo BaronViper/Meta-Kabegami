@@ -4,12 +4,14 @@
     { "src": "main.py", "use": "@vercel/python" },
     { "src": "static/css/**", "use": "@vercel/static" },
     { "src": "static/images/**", "use": "@vercel/static" },
-    { "src": "templates/**", "use": "@vercel/static" }
+    { "src": "templates/**", "use": "@vercel/static" },
+    { "src": "drivers/**", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/static/css/(.*)", "dest": "/static/css/$1", "headers": { "cache-control": "public, max-age=31536000, immutable" } },
     { "src": "/static/images/(.*)", "dest": "/static/images/$1", "headers": { "cache-control": "public, max-age=31536000, immutable" } },
     { "src": "/templates/(.*)", "dest": "/templates/$1" },
+    { "src": "/drivers/(.*)", "dest": "/drivers/$1" },
     { "src": "/(.*)", "dest": "main.py" }
   ]
 }
