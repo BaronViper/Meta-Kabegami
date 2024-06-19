@@ -3,7 +3,7 @@ from flask_session import Session
 from dotenv import load_dotenv
 from PIL import Image, ImageOps
 from bs4 import BeautifulSoup
-import requests
+from curl_cffi import requests
 import urllib.request
 import random
 import os
