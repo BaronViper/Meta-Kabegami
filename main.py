@@ -15,7 +15,7 @@ import os
 from selenium.webdriver.support.wait import WebDriverWait
 
 load_dotenv()
-chrome_driver_path = "C:\Development\chromedriver.exe"
+chrome_driver_path = "drivers\chromedriver.exe"
 
 header = Headers(
     browser="chrome",  # Generate only Chrome UA
