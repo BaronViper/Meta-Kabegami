@@ -46,7 +46,7 @@ def main_page():
 
                 return redirect('/create')
             else:
-                return redirect('/')
+                return f"{response.status_code}"
         except Exception as e:
             return f"An error occurred: {str(e)}"
 
