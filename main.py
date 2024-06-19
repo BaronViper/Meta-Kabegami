@@ -45,8 +45,7 @@ def main_page():
 
             return redirect('/create')
         except Exception as e:
-            return e
-
+            return f"An error occurred: {str(e)}"
 
 @app.route('/create', methods=["POST", "GET"])
 def create_page():
