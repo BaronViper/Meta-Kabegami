@@ -72,25 +72,6 @@ def main_page():
                 resized_img = ImageOps.fit(img, size=(1818, 1818))
                 ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("static/images/image_converted.png")
 
-
-                img_data = open('static/images/image_converted.png', 'rb').read()
-                msg = MIMEMultipart()
-                msg['Subject'] = f'Your Generated Wallpaper of {title}'
-                msg['From'] = os.getenv('EMAIL')
-                msg['To'] = os.getenv('TO_EMAIL')
-                text = MIMEText("Thank you for using Meta Kabegami! We've cooked this up for you.")
-                msg.attach(text)
-                image = MIMEImage(img_data, name=os.path.basename('image_converted.png'))
-                msg.attach(image)
-                with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
-                    connection.starttls()
-                    connection.login(user=os.getenv('EMAIL'), password=os.getenv('PASSWORD'))
-                    connection.sendmail(
-                        from_addr=os.getenv('EMAIL'),
-                        to_addrs=os.getenv('TO_EMAIL'),
-                        msg=msg.as_string()
-                    )
-
                 session['title'] = title
                 session['img_src'] = img_src
 
@@ -105,10 +86,30 @@ def create_page():
     if request.method == "GET":
         return render_template('create.html', img_src=session['img_src'], art_title=session['title'])
 
-@app.route('/download', methods=["POST"])
+@app.route('/download')
 def download_page():
     path = "static/images/image_converted.png"
     return send_file(path, as_attachment=True)
 
+@app.route('/send')
+def send_page():
+    img_data = open('static/images/image_converted.png', 'rb').read()
+    msg = MIMEMultipart()
+    msg['Subject'] = f"Your Generated Wallpaper of {session['title']}"
+    msg['From'] = os.getenv('EMAIL')
+    msg['To'] = os.getenv('TO_EMAIL')
+    text = MIMEText("Thank you for using Meta Kabegami! We've cooked this up for you.")
+    msg.attach(text)
+    image = MIMEImage(img_data, name=os.path.basename('image_converted.png'))
+    msg.attach(image)
+    with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+        connection.starttls()
+        connection.login(user=os.getenv('EMAIL'), password=os.getenv('PASSWORD'))
+        connection.sendmail(
+            from_addr=os.getenv('EMAIL'),
+            to_addrs=os.getenv('TO_EMAIL'),
+            msg=msg.as_string()
+        )
+    return redirect("/create")
 if __name__ == '__main__':
     app.run(debug=True)

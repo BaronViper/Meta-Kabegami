@@ -18,6 +18,36 @@ body {
 }
 
 
+.btn-a {
+    text-align: center;
+    padding: 2%;
+    font-size: 1.5em;
+}
+
+.btn {
+    text-align: center;
+    background-color: #1111;
+    color: white;
+    font-family: "Nova Square";
+    font-style: normal;
+    text-decoration: none;
+    font-size: 1em;
+    border: solid white;
+}
+
+.btn:hover {
+    background-color: white;
+    color: black;
+}
+
+
+.button-row {
+    display: flex;
+    align-content: space-around;
+    justify-content: center;
+}
+
+
 .create-body {
     height: 80%;
 }
@@ -182,6 +212,9 @@ label, input{
     font-size: 200%;
 }
 
+.nft-info {
+    margin-bottom: 1.2%;
+}
 
 
 .preview-pane {
