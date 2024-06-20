@@ -1,11 +1,14 @@
 # Meta Kabegami - NFT Wallpaper Generator
+![An image of the Meta Kabegami logo.](static/images/banner.png)
 
-Meta Kabegami is a tool that allows you to generate wallpapers from your favorite NFTs. By providing the URL of an NFT on OpenSea, you can easily create a personalized wallpaper. Currently, this tool needs to be downloaded and run locally on your machine.
+Meta Kabegami is a tool that allows you to generate wallpapers from your favorite NFTs. By providing the URL of an NFT on OpenSea, you can easily create a personalized wallpaper. Due to OpenSea access limitations, this tool needs to be downloaded and run locally on your machine.
 
+![An image of the wallpapers generated from the program.](static/images/example.png)
 ## Features
 
 - Generate wallpapers from NFTs listed on OpenSea.
 - Easy-to-use interface: just copy the NFT's URL and paste it into the field.
+- Opt to send wallpapers by email or download files locally.
 - Download and run the program locally.
 
 ## Requirements
@@ -80,7 +83,7 @@ Meta Kabegami is a tool that allows you to generate wallpapers from your favorit
 1. Navigate to your favorite NFT on OpenSea.
 2. Copy the URL of the NFT (e.g., `https://opensea.io/assets/ethereum/0x.../1234`).
 3. Run the program and paste the URL when prompted.
-4. Download your personalized NFT wallpaper.
+4. Download or email your personalized NFT wallpaper.
 
 ## Contributing
 
