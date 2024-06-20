@@ -54,6 +54,9 @@ Meta Kabegami is a tool that allows you to generate wallpapers from your favorit
 
     ```plaintext
     SECRET_KEY=your_secret_key
+   EMAIL=your_email@example.com
+   PASSWORD=your_email_password_or_app_password (For Gmail, an App Password is required)
+   TO_EMAIL=recipient_email@example.com
     ```
 
     Replace `your_secret_key` with a strong, unique key.
