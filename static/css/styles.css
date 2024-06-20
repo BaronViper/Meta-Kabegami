@@ -234,6 +234,7 @@ label, input{
   width: 100%;
   height: 3em;
   margin: 2% 0;
+  padding-left: 2%;
 }
 
 #pname-label {
