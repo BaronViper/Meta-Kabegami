@@ -1,11 +1,15 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, url_for, request, session, send_file
 from flask_session import Session
 from dotenv import load_dotenv
 from PIL import Image, ImageOps
 from bs4 import BeautifulSoup
 from curl_cffi import requests
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
 import urllib.request
 import random
+import smtplib
 import os
 
 
@@ -68,6 +72,25 @@ def main_page():
                 resized_img = ImageOps.fit(img, size=(1818, 1818))
                 ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("static/images/image_converted.png")
 
+
+                img_data = open('static/images/image_converted.png', 'rb').read()
+                msg = MIMEMultipart()
+                msg['Subject'] = f'Your Generated Wallpaper of {title}'
+                msg['From'] = os.getenv('EMAIL')
+                msg['To'] = os.getenv('TO_EMAIL')
+                text = MIMEText("Thank you for using Meta Kabegami! We've cooked this up for you.")
+                msg.attach(text)
+                image = MIMEImage(img_data, name=os.path.basename('image_converted.png'))
+                msg.attach(image)
+                with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+                    connection.starttls()
+                    connection.login(user=os.getenv('EMAIL'), password=os.getenv('PASSWORD'))
+                    connection.sendmail(
+                        from_addr=os.getenv('EMAIL'),
+                        to_addrs=os.getenv('TO_EMAIL'),
+                        msg=msg.as_string()
+                    )
+
                 session['title'] = title
                 session['img_src'] = img_src
 
@@ -82,12 +105,10 @@ def create_page():
     if request.method == "GET":
         return render_template('create.html', img_src=session['img_src'], art_title=session['title'])
 
-
-@app.route('/create/test', methods=["POST", "GET"])
-def create_page_test():
-    if request.method == "GET":
-        return render_template('create.html', img_src=r"https://i.seadn.io/s/raw/files/0d304ef87f29306ae752b241871ec0d3.png?auto=format&dpr=1&w=1000", art_title="Azuki #5334")
-
+@app.route('/download', methods=["POST"])
+def download_page():
+    path = "static/images/image_converted.png"
+    return send_file(path, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -16,95 +16,35 @@
 <body>
     <div class="main-container">
         {% include 'navbar.html' %}
-
         <div class="create-body container-fluid">
-
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="phone-container">
-                        <section>
-                            <div class="outside-border">
-                                <div class="silencer"></div>
-                                <div class="volume-up"></div>
-                                <div class="volume-down"></div>
-                                <div class="button-on"></div>
-                                <div class="inside-border">
+                    <div class="iphone-container">
+                        <div class="iphone-x">
+                          <i>Speaker</i>
+                          <b>Camera</b>
+                          <s>10:24</s>
 
-                                    <!-- Camera -->
-
-                                    <div class="camera">
-                                        <div class="camera-dot">
-                                            <div class="camera-dot-2"></div>
-                                            <div class="camera-dot-3"></div>
-                                        </div>
-                                        <div class="camera-speaker">
-                                        </div>
-                                    </div>
-
-                                    <!-- Lock -->
-
-                                    <div class="lock">
-                                        <div class="lock-locked"></div>
-                                    </div>
-
-                                    <!-- Time -->
-
-                                    <div class="time">19:53</div>
-
-                                    <!-- Battery and Signal -->
-
-                                    <div class="t-r-info">
-                                        <div class="dots">...</div>
-                                        <div class="battery">
-                                            <div class="bar"></div>
-                                            <div class="dot"></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Date -->
-
-                                    <div class="date">Tuesday, 9 August</div>
-
-
-                                    <!-- Torch -->
-
-                                    <div class="torch-outter">
-                                        <div class="light"></div>
-                                        <div class="top"></div>
-                                        <div class="switch-top"></div>
-                                        <div class="switch-section"></div>
-                                        <div class="switch">
-                                            <div class="dot"></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Camera -->
-
-                                    <div class="camera-outter">
-                                        <div class="box"></div>
-                                        <div class="eye"></div>
-                                        <div class="circle"></div>
-                                        <div class="dot"></div>
-                                    </div>
-
-                                    <!-- Bottom Line -->
-
-                                  <div class="bottom-line"></div>
-
-                                </div>
-                            </div>
-                        </section>
+                          <span>Left action button</span>
+                          <span>Right action button</span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-sm-6">
-                    <div class="nft-info">
-                        <div>
+                    <div class="nft-info d-flex justify-content-center align-items-center">
+                        <div class="nft-info-details text-center">
                             <h1 class="art-title">{{ art_title }}</h1>
                             <div class="img-container">
                                 <img src="{{ img_src }}" class="src-img"/>
                             </div>
                         </div>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center flex-column">
+                        <form action="{{ url_for('download_page') }}" method="POST" style="width: 100%;">
+                            <input type="submit" value="Download Wallpaper" class="download-button"/>
+                        </form>
+                        <a href="{{ url_for('main_page') }}" style="color: white;">Return to Home</a>
                     </div>
                 </div>
 
