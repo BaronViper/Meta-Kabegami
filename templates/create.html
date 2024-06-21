@@ -18,7 +18,7 @@
         {% include 'navbar.html' %}
         <div class="create-body container-fluid">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-6 iphone-col">
                     <div class="iphone-container">
                         <div class="iphone-x">
                           <i>Speaker</i>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="d-flex button-row" style="justify-content: center;">
                         <a href="{{ url_for('download_page') }}" class="btn-a"><button class="btn">Download</button></a>
-                        <a href="{{ url_for('send_page') }}" class="btn-a"><button class="btn">Email</button></a>
+                        <!-- <a href="{{ url_for('send_page') }}" class="btn-a"><button class="btn">Email</button></a> -->
                         <a href="{{ url_for('main_page') }}" class="btn-a"><button class="btn">Home</button></a>
                     </div>
                 </div>

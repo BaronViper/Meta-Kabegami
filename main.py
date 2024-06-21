@@ -7,6 +7,7 @@ from curl_cffi import requests
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
+import cv2
 import urllib.request
 import random
 import smtplib
