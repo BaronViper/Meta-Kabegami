@@ -18,7 +18,7 @@
         {% include 'navbar.html' %}
         <div class="create-body container-fluid">
             <div class="row">
-                <div class="col-sm-6 iphone-col">
+                <div class="col-lg-6 col-md-12 col-sm-12 iphone-col">
                     <div class="iphone-container">
                         <div class="iphone-x">
                           <i>Speaker</i>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-lg-6 col-md-12 col-sm-12">
                     <div class="nft-info d-flex justify-content-center align-items-center">
                         <div class="nft-info-details text-center">
                             <h1 class="art-title">{{ art_title }}</h1>
@@ -42,7 +42,10 @@
                     </div>
                     <div class="d-flex button-row" style="justify-content: center;">
                         <a href="{{ url_for('download_page') }}" class="btn-a"><button class="btn">Download</button></a>
-                        <a href="{{ url_for('send_page') }}" class="btn-a"><button class="btn">Email</button></a>
+                        <a href="mailto:recipient@example.com?subject=Your%20NFT%20Wallpaper%20is%20Ready!&body=Hello%20{{ username }},%0D%0A%0D%0AYour%20NFT%20wallpaper%20has%20been%20generated!%20You%20can%20download%20it%20using%20the%20link%20below:%0D%0A%0D%0A{{ wallpaper_url }}%0D%0A%0D%0AThank%20you%20for%20your%20support!%0D%0A%0D%0A- The NFT Team" class="btn-a">
+                            <button class="btn">Send NFT Wallpaper</button>
+                        </a>
+                        
                         <a href="{{ url_for('main_page') }}" class="btn-a"><button class="btn">Home</button></a>
                     </div>
                 </div>
