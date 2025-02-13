@@ -41,7 +41,7 @@ def main_page():
                 response = requests.get(img_src)
 
                 img = Image.open(BytesIO(response.content))
-                img.save("target_img.png")
+                img.save("/tmp/target_img.png")
                 pix = img.load()
                 palette_rgb = pix[1, 1]
                 resized_img = ImageOps.fit(img, size=(1818, 1818))

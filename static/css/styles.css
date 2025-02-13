@@ -105,7 +105,7 @@ body {
 }
 
 .form-contents {
-    width: 80%
+  width: 80%;
 }
 
 @keyframes slide {
@@ -210,6 +210,25 @@ label, input{
     color: white;
     display: inline-block;
     font-size: 200%;
+}
+
+.nft-label {
+  display: inline-flex;
+  align-items: left;
+  gap: 5px;
+}
+
+.nft-icon {
+  width: 30px;
+  height: auto;
+}
+
+.nft-text {
+  white-space: nowrap;
+}
+
+.nft-icon-wrapper {
+  display: inline-flex;
 }
 
 .nft-info {

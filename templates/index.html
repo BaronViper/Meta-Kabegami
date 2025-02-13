@@ -30,8 +30,15 @@
                     <div class="create-group col-sm-8 col-md-12 col-lg-8">
                         <form action="{{ url_for('main_page') }}" method="POST" id="create-form">
                             <div class="form-contents">
-                                <label for="pname" id="pname-label">NFT OpenSea Link</label>
-                                <input type="text" id="pname" name="pname" placeholder="Enter an NFT Image Address"><br>
+                                <div class="nft-submit-text">
+                                    <label for="pname" id="pname-label" class="nft-label">
+                                        <span class="nft-text">NFT Link</span>
+                                        <span class="nft-icon-wrapper">
+                                            <img src="static/images/Rarible.svg" alt="Rarible Icon" class="nft-icon">
+                                        </span>
+                                    </label>
+                                </div>
+                                <input type="text" id="pname" name="pname" placeholder="Paste NFT Image URL"><br>
                                 <button type="submit" class="btn" role="button">Let It Cook</button>
                             </div>
                         </form>
