@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session, send_file
+from flask import Flask, render_template, redirect, url_for, request, session, send_file, flash
 from flask_session import Session
 from dotenv import load_dotenv
 from PIL import Image, ImageOps
@@ -38,21 +38,25 @@ def main_page():
                     title = title_tag["content"]
 
 
-                response = requests.get(img_src)
+                    response = requests.get(img_src)
 
-                img = Image.open(BytesIO(response.content))
-                img.save("/tmp/target_img.png")
-                pix = img.load()
-                palette_rgb = pix[1, 1]
-                resized_img = ImageOps.fit(img, size=(1818, 1818))
-                ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("static/images/image_converted.png")
+                    img = Image.open(BytesIO(response.content))
+                    img.save("/tmp/target_img.png")
+                    pix = img.load()
+                    palette_rgb = pix[1, 1]
+                    resized_img = ImageOps.fit(img, size=(1818, 1818))
+                    ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("static/images/image_converted.png")
 
-                session['title'] = title
-                session['img_src'] = img_src
+                    session['title'] = title
+                    session['img_src'] = img_src
 
-                return redirect('/create')
+                    return redirect('/create')
+                else:
+                    flash('Unable to retrieve NFT details. Please check the link and try again.', 'error')
+                    return render_template('index.html')
             else:
-                return f"{response.status_code}: {response.text}"
+                flash('Unable to retrieve NFT details. Please check the link and try again.', 'error')
+                return render_template('index.html')
         except Exception as e:
             return f"An error occurred: {str(e)}"
 

@@ -12,8 +12,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&family=Libre+Barcode+39+Text&display=swap&family=Libre+Barcode+39+Extended+Text&family=Major+Mono+Display&family=Nova+Square&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="bg-container">
     <div class="loading-screen"><p class="loading-text">Loading...</p></div>
     <div class="loading-screen" id="generate-screen" style="display: none;"><p class="loading-text">Cooking Up Your Wallpaper...</p></div>
     <div class="main-container">
@@ -31,13 +32,25 @@
                         <form action="{{ url_for('main_page') }}" method="POST" id="create-form">
                             <div class="form-contents">
                                 <div class="nft-submit-text">
-                                    <p id="pname-label" class="nft-label">NFT Link</p>
-                                    <span class="nft-icon-wrapper">
+                                    <p id="pname-label" class="nft-label">NFT Link 
                                         <img src="static/images/Rarible.svg" alt="Rarible Icon" class="nft-icon">
-                                    </span>
+                                    </p>
                                 </div>
+                                {% with messages = get_flashed_messages(with_categories=true) %}
+                                    {% if messages %}
+                                        <div class="flash-messages">
+                                            {% for category, message in messages %}
+                                                <div class="alert alert-{{ category }}">
+                                                    {{ message }}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
                                 <input type="text" id="pname" name="pname" placeholder="Paste NFT Image URL"><br>
-                                <button type="submit" class="btn" role="button">Let It Cook</button>
+                                <div class="button-container">
+                                    <button type="submit" class="btn" role="button">Let It Cook</button>
+                                </div>
                             </div>
                         </form>
                     </div>

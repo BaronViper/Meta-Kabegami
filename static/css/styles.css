@@ -4,12 +4,42 @@
   box-sizing: border-box;
 }
 
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert-error {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.alert-success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
 .art-title {
     font-family: "Sedgwick Ave", cursive;
     font-weight: 400;
     font-style: normal;
     color: white;
 }
+
+/* .bg-container {
+  background-image: url('../images/kitaroCat.gif');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+  z-index: 1;
+}
+ */
 
 body {
     background-color: black;
@@ -28,7 +58,7 @@ body {
     text-align: center;
     background-color: #1111;
     color: white;
-    font-family: "Nova Square";
+    font-family: 'Montserrat', sans-serif;
     font-style: normal;
     text-decoration: none;
     font-size: 1em;
@@ -40,6 +70,10 @@ body {
     color: black;
 }
 
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
 
 .button-row {
     display: flex;
@@ -82,7 +116,7 @@ body {
 }
 
 .download-button {
-    font-family: "Nova Square";
+    font-family: 'Montserrat', sans-serif;
     font-style: normal;
     margin: 10% auto;
     padding: 2.5%;
@@ -189,7 +223,7 @@ label, input{
 }
 
 .main-sub-text{
-    font-family: 'Nova Square', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     margin-top: 5%;
     font-size: 1.5em;
 }
@@ -246,7 +280,7 @@ label, input{
 }
 
 #pname {
-  font-family: 'Nova Square', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   background-color: black;
   color: white;
   border: 3px solid white;
@@ -257,7 +291,7 @@ label, input{
 }
 
 #pname-label {
-  font-family: 'Nova Square', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: white;
   font-size: 1.25em;
 }
