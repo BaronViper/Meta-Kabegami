@@ -45,7 +45,7 @@ def main_page():
                     pix = img.load()
                     palette_rgb = pix[1, 1]
                     resized_img = ImageOps.fit(img, size=(1818, 1818))
-                    ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("static/images/image_converted.png")
+                    ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("/tmp/image_converted.png")
 
                     session['title'] = title
                     session['img_src'] = img_src
