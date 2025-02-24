@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session, send_file, flash
 from flask_session import Session
 from dotenv import load_dotenv
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageDraw, ImageFilter
 from bs4 import BeautifulSoup
 from curl_cffi import requests
 from email.mime.text import MIMEText
@@ -42,9 +42,45 @@ def main_page():
                     img = Image.open(BytesIO(response.content))
                     img.save("/tmp/target_img.png")
                     pix = img.load()
-                    palette_rgb = pix[1, 1]
-                    resized_img = ImageOps.fit(img, size=(1818, 1818))
-                    ImageOps.pad(resized_img, (1818, 3840), color=palette_rgb, centering=(0.5, 1)).save("/tmp/image_converted.png")
+                    palette_rgb = pix[30, 1]
+
+                    # Crop a bit from the top to remove any curve (adjust as needed)
+                    cropped_img = img.crop((0, 20, img.width, img.height))  # Crops 20px from the top
+
+                    # Resize the image to square dimensions
+                    resized_img = ImageOps.fit(cropped_img, size=(1818, 1818))
+
+                    # Create a new empty image with extended height
+                    final_img = Image.new('RGB', (1818, 3840), color=palette_rgb)
+
+                    # Paste the NFT image at the very bottom
+                    final_img.paste(resized_img, (0, 3840 - 1818))  # Pasting at the bottom
+
+                    # Add a gradient blending from the top down to the NFT image
+                    gradient = Image.new('RGB', (1818, 3840), color=palette_rgb)
+                    draw = ImageDraw.Draw(gradient)
+
+                    for y in range(3840 - 1818):
+                        # Calculate the blend amount (255 at the top, 0 near the image)
+                        blend = int(255 * (1 - y / (3840 - 1818)))
+                        blended_color = (
+                            (palette_rgb[0] * (255 - blend) + palette_rgb[0] * blend) // 255,
+                            (palette_rgb[1] * (255 - blend) + palette_rgb[1] * blend) // 255,
+                            (palette_rgb[2] * (255 - blend) + palette_rgb[2] * blend) // 255
+                        )
+                        draw.line([(0, y), (1818, y)], fill=blended_color)
+
+                    # Composite the gradient onto the final image (only above the NFT image)
+                    final_img.paste(gradient.crop((0, 0, 1818, 3840 - 1818)), (0, 0))
+
+                    blur_zone = final_img.crop((0, 3840 - 1818 - 50, 1818, 3840 - 1818 + 50))  # 50px overlap zone
+                    blurred = blur_zone.filter(ImageFilter.GaussianBlur(40))  # Strong blur for smoothness
+
+                    # Paste the blurred section back onto the final image
+                    final_img.paste(blurred, (0, 3840 - 1818 - 50))
+
+                    # Save the final image
+                    final_img.save('static/image_converted.png')
 
                     session['title'] = title
                     session['img_src'] = img_src
@@ -66,7 +102,7 @@ def create_page():
 
 @app.route('/download')
 def download_page():
-    path = "static/images/image_converted.png"
+    path = "static/image_converted.png"
     return send_file(path, as_attachment=True)
 
 # @app.route('/send')
