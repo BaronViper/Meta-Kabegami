@@ -53,7 +53,7 @@ def main_page():
                     # Get a color from near the top-left to use as background fill
                     palette_rgb = pix[30, 1]
 
-                    # Crop a bit from the top to remove any curve (adjust as needed)
+                    # Crop a bit from the top to remove any curve
                     cropped_img = img.crop((0, 20, img.width, img.height))
 
                     # Resize the image to square dimensions
@@ -62,10 +62,10 @@ def main_page():
                     # Create a new empty image with extended height
                     final_img = Image.new('RGB', (1818, 3840), color=palette_rgb)
 
-                    # Paste the NFT image at the very bottom
+                    # Paste the resized image at the bottom
                     final_img.paste(resized_img, (0, 3840 - 1818))
 
-                    # Add a gradient blending from the top down to the NFT image
+                    # Add a smooth gradient blending from the top down
                     gradient = Image.new('RGB', (1818, 3840), color=palette_rgb)
                     draw = ImageDraw.Draw(gradient)
 
@@ -81,12 +81,14 @@ def main_page():
                     # Composite the gradient onto the final image
                     final_img.paste(gradient.crop((0, 0, 1818, 3840 - 1818)), (0, 0))
 
-                    # Create a blur zone where the two sections meet
-                    blur_zone = final_img.crop((0, 3840 - 1818 - 100, 1818, 3840 - 1818 + 100))
-                    blurred = blur_zone.filter(ImageFilter.GaussianBlur(80))
+                    # Expand and soften the blur zone
+                    blur_zone_height = 300  # Make the blur zone larger
+                    blur_zone = final_img.crop(
+                        (0, 3840 - 1818 - blur_zone_height, 1818, 3840 - 1818 + blur_zone_height))
+                    blurred = blur_zone.filter(ImageFilter.GaussianBlur(150))  # Increase the blur strength
 
                     # Paste the blurred section back onto the final image
-                    final_img.paste(blurred, (0, 3840 - 1818 - 100))
+                    final_img.paste(blurred, (0, 3840 - 1818 - blur_zone_height))
 
                     # Save the final image
                     final_img.save('/tmp/image_converted.png')
