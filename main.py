@@ -80,7 +80,7 @@ def main_page():
                     final_img.paste(blurred, (0, 3840 - 1818 - 50))
 
                     # Save the final image
-                    final_img.save('static/image_converted.png')
+                    final_img.save('/tmp/image_converted.png')
 
                     session['title'] = title
                     session['img_src'] = img_src
