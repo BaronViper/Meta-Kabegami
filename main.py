@@ -18,9 +18,9 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
+
 @app.route('/', methods=["POST", "GET"])
 def main_page():
-
     if request.method == "GET":
         return render_template('index.html')
     else:
@@ -35,7 +35,6 @@ def main_page():
                 if img_tag and title_tag:
                     img_src = img_tag["content"]
                     title = title_tag["content"]
-
 
                     response = requests.get(img_src)
 
@@ -95,15 +94,18 @@ def main_page():
         except Exception as e:
             return f"An error occurred: {str(e)}"
 
+
 @app.route('/create', methods=["POST", "GET"])
 def create_page():
     if request.method == "GET":
         return render_template('create.html', img_src=session['img_src'], art_title=session['title'])
 
+
 @app.route('/download')
 def download_page():
-    path = "static/image_converted.png"
+    path = "/tmp/image_converted.png"
     return send_file(path, as_attachment=True)
+
 
 # @app.route('/send')
 # def send_page():
