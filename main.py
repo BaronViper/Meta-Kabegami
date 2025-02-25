@@ -1,5 +1,6 @@
 from flask import Flask, render_template, send_from_directory, redirect, url_for, request, session, send_file, flash
 from flask_session import Session
+from datetime import datetime
 from dotenv import load_dotenv
 from PIL import Image, ImageOps, ImageDraw, ImageFilter
 from bs4 import BeautifulSoup
@@ -112,7 +113,8 @@ def get_image(filename):
 @app.route('/create', methods=["POST", "GET"])
 def create_page():
     if request.method == "GET":
-        return render_template('create.html', img_src=session['img_src'], art_title=session['title'])
+        return render_template('create.html', img_src=session['img_src'], art_title=session['title'],
+                               time_now=datetime.now().timestamp())
 
 
 @app.route('/download')
