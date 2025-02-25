@@ -41,6 +41,7 @@ def main_page():
                     img = Image.open(BytesIO(response.content))
                     img.save("/tmp/target_img.png")
                     pix = img.load()
+                    # Get a color from near the top-left to use as background fill
                     palette_rgb = pix[30, 1]
 
                     # Crop a bit from the top to remove any curve (adjust as needed)
@@ -72,11 +73,14 @@ def main_page():
                     # Composite the gradient onto the final image (only above the NFT image)
                     final_img.paste(gradient.crop((0, 0, 1818, 3840 - 1818)), (0, 0))
 
-                    blur_zone = final_img.crop((0, 3840 - 1818 - 50, 1818, 3840 - 1818 + 50))  # 50px overlap zone
-                    blurred = blur_zone.filter(ImageFilter.GaussianBlur(40))  # Strong blur for smoothness
+                    # Create a blur mask *on top of the connection line* (not behind)
+                    blur_height = 100  # Increase for a wider blur zone if needed
+                    blur_zone = final_img.crop(
+                        (0, 3840 - 1818 - blur_height // 2, 1818, 3840 - 1818 + blur_height // 2))
+                    blurred = blur_zone.filter(ImageFilter.GaussianBlur(50))  # Stronger blur for smoothness
 
-                    # Paste the blurred section back onto the final image
-                    final_img.paste(blurred, (0, 3840 - 1818 - 50))
+                    # Paste the blurred section back on top of the connection line
+                    final_img.paste(blurred, (0, 3840 - 1818 - blur_height // 2))
 
                     # Save the final image
                     final_img.save('/tmp/image_converted.png')
