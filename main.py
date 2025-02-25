@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session, send_file, flash
+from flask import Flask, render_template, send_from_directory, redirect, url_for, request, session, send_file, flash
 from flask_session import Session
 from dotenv import load_dotenv
 from PIL import Image, ImageOps, ImageDraw, ImageFilter
@@ -45,7 +45,7 @@ def main_page():
                     palette_rgb = pix[30, 1]
 
                     # Crop a bit from the top to remove any curve (adjust as needed)
-                    cropped_img = img.crop((0, 20, img.width, img.height))  # Crops 20px from the top
+                    cropped_img = img.crop((0, 20, img.width, img.height))
 
                     # Resize the image to square dimensions
                     resized_img = ImageOps.fit(cropped_img, size=(1818, 1818))
@@ -54,16 +54,30 @@ def main_page():
                     final_img = Image.new('RGB', (1818, 3840), color=palette_rgb)
 
                     # Paste the NFT image at the very bottom
-                    final_img.paste(resized_img, (0, 3840 - 1818))  # Pasting at the bottom
+                    final_img.paste(resized_img, (0, 3840 - 1818))
 
-                    # Create a blurred strip to smooth the transition
-                    blur_zone_height = 100  # Height of the transition blur zone
-                    blur_zone = final_img.crop(
-                        (0, 3840 - 1818 - blur_zone_height // 2, 1818, 3840 - 1818 + blur_zone_height // 2))
-                    blurred = blur_zone.filter(ImageFilter.GaussianBlur(50))  # Strong blur for smoothness
+                    # Add a gradient blending from the top down to the NFT image
+                    gradient = Image.new('RGB', (1818, 3840), color=palette_rgb)
+                    draw = ImageDraw.Draw(gradient)
 
-                    # Paste the blurred section on top of the seam to smooth out the transition
-                    final_img.paste(blurred, (0, 3840 - 1818 - blur_zone_height // 2))
+                    for y in range(3840 - 1818):
+                        blend = int(255 * (1 - y / (3840 - 1818)))
+                        blended_color = (
+                            (palette_rgb[0] * (255 - blend) + palette_rgb[0] * blend) // 255,
+                            (palette_rgb[1] * (255 - blend) + palette_rgb[1] * blend) // 255,
+                            (palette_rgb[2] * (255 - blend) + palette_rgb[2] * blend) // 255
+                        )
+                        draw.line([(0, y), (1818, y)], fill=blended_color)
+
+                    # Composite the gradient onto the final image
+                    final_img.paste(gradient.crop((0, 0, 1818, 3840 - 1818)), (0, 0))
+
+                    # Create a blur zone where the two sections meet
+                    blur_zone = final_img.crop((0, 3840 - 1818 - 100, 1818, 3840 - 1818 + 100))
+                    blurred = blur_zone.filter(ImageFilter.GaussianBlur(80))
+
+                    # Paste the blurred section back onto the final image
+                    final_img.paste(blurred, (0, 3840 - 1818 - 100))
 
                     # Save the final image
                     final_img.save('/tmp/image_converted.png')
@@ -81,6 +95,9 @@ def main_page():
         except Exception as e:
             return f"An error occurred: {str(e)}"
 
+@app.route('/image/<filename>')
+def get_image(filename):
+    return send_from_directory('/tmp', filename)
 
 @app.route('/create', methods=["POST", "GET"])
 def create_page():
