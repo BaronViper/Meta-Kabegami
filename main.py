@@ -22,6 +22,14 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 @app.route('/', methods=["POST", "GET"])
 def main_page():
     if request.method == "GET":
+        tmp_folder = '/tmp'
+        try:
+            for filename in os.listdir(tmp_folder):
+                file_path = os.path.join(tmp_folder, filename)
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+        except Exception as e:
+            print(e)
         return render_template('index.html')
     else:
         img_address = request.form['pname']
@@ -95,9 +103,11 @@ def main_page():
         except Exception as e:
             return f"An error occurred: {str(e)}"
 
+
 @app.route('/image/<filename>')
 def get_image(filename):
     return send_from_directory('/tmp', filename)
+
 
 @app.route('/create', methods=["POST", "GET"])
 def create_page():
