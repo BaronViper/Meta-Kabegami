@@ -56,16 +56,14 @@ def main_page():
                     # Paste the NFT image at the very bottom
                     final_img.paste(resized_img, (0, 3840 - 1818))  # Pasting at the bottom
 
-                    # Create a smooth gradient blend
-                    gradient = Image.new('L', (1818, 3840 - 1818))
-                    for y in range(3840 - 1818):
-                        opacity = int(255 * (1 - (y / (3840 - 1818)) ** 2))  # Smoother quadratic gradient
-                        draw = ImageDraw.Draw(gradient)
-                        draw.line([(0, y), (1818, y)], fill=opacity)
+                    # Create a blurred strip to smooth the transition
+                    blur_zone_height = 100  # Height of the transition blur zone
+                    blur_zone = final_img.crop(
+                        (0, 3840 - 1818 - blur_zone_height // 2, 1818, 3840 - 1818 + blur_zone_height // 2))
+                    blurred = blur_zone.filter(ImageFilter.GaussianBlur(50))  # Strong blur for smoothness
 
-                    # Apply the gradient as a mask to a blurred version of the background
-                    blurred_bg = final_img.crop((0, 0, 1818, 3840 - 1818)).filter(ImageFilter.GaussianBlur(80))
-                    final_img.paste(blurred_bg, (0, 0), gradient)
+                    # Paste the blurred section on top of the seam to smooth out the transition
+                    final_img.paste(blurred, (0, 3840 - 1818 - blur_zone_height // 2))
 
                     # Save the final image
                     final_img.save('/tmp/image_converted.png')
