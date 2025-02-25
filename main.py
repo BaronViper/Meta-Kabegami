@@ -56,31 +56,16 @@ def main_page():
                     # Paste the NFT image at the very bottom
                     final_img.paste(resized_img, (0, 3840 - 1818))  # Pasting at the bottom
 
-                    # Add a gradient blending from the top down to the NFT image
-                    gradient = Image.new('RGB', (1818, 3840), color=palette_rgb)
-                    draw = ImageDraw.Draw(gradient)
-
+                    # Create a smooth gradient blend
+                    gradient = Image.new('L', (1818, 3840 - 1818))
                     for y in range(3840 - 1818):
-                        # Calculate the blend amount (255 at the top, 0 near the image)
-                        blend = int(255 * (1 - y / (3840 - 1818)))
-                        blended_color = (
-                            (palette_rgb[0] * (255 - blend) + palette_rgb[0] * blend) // 255,
-                            (palette_rgb[1] * (255 - blend) + palette_rgb[1] * blend) // 255,
-                            (palette_rgb[2] * (255 - blend) + palette_rgb[2] * blend) // 255
-                        )
-                        draw.line([(0, y), (1818, y)], fill=blended_color)
+                        opacity = int(255 * (1 - (y / (3840 - 1818)) ** 2))  # Smoother quadratic gradient
+                        draw = ImageDraw.Draw(gradient)
+                        draw.line([(0, y), (1818, y)], fill=opacity)
 
-                    # Composite the gradient onto the final image (only above the NFT image)
-                    final_img.paste(gradient.crop((0, 0, 1818, 3840 - 1818)), (0, 0))
-
-                    # Create a blur mask *on top of the connection line* (not behind)
-                    blur_height = 100  # Increase for a wider blur zone if needed
-                    blur_zone = final_img.crop(
-                        (0, 3840 - 1818 - blur_height // 2, 1818, 3840 - 1818 + blur_height // 2))
-                    blurred = blur_zone.filter(ImageFilter.GaussianBlur(50))  # Stronger blur for smoothness
-
-                    # Paste the blurred section back on top of the connection line
-                    final_img.paste(blurred, (0, 3840 - 1818 - blur_height // 2))
+                    # Apply the gradient as a mask to a blurred version of the background
+                    blurred_bg = final_img.crop((0, 0, 1818, 3840 - 1818)).filter(ImageFilter.GaussianBlur(80))
+                    final_img.paste(blurred_bg, (0, 0), gradient)
 
                     # Save the final image
                     final_img.save('/tmp/image_converted.png')
